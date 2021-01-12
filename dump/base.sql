@@ -4,6 +4,9 @@
 -- ------------------------------------------------------
 -- Server version	5.5.62
 
+create Database `interview_tests`;
+use `interview_tests`;
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -22,6 +25,7 @@
 DROP TABLE IF EXISTS `invoice_headers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
+
 CREATE TABLE `invoice_headers` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `location_id` int(10) unsigned NOT NULL,
@@ -94,6 +98,22 @@ LOCK TABLES `locations` WRITE;
 INSERT INTO `locations` VALUES (1,'LOCATION 001'),(2,'LOCATION 002');
 /*!40000 ALTER TABLE `locations` ENABLE KEYS */;
 UNLOCK TABLES;
+
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `GetinvoiceList` AS
+    SELECT 
+        `locations`.`id` AS `LocationId`,
+        `locations`.`name` AS `Location`,
+        `invoice_headers`.`id` AS `InvoiceId`,
+        `invoice_headers`.`date` AS `date`,
+        `invoice_headers`.`status` AS `status`
+    FROM
+        (`invoice_headers`
+        LEFT JOIN `locations` ON ((`invoice_headers`.`location_id` = `locations`.`id`)));
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
