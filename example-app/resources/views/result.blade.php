@@ -4,7 +4,7 @@
 
 <ul>
 
-    @if (strlen(trim($results)) < 1)
+    @if (strlen(trim($results)) > 1)
 
         @foreach (json_decode($results) as $key => $rows)
 
